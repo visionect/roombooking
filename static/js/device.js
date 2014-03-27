@@ -70,6 +70,28 @@ $(document).ready(function() {
     $('#cancel').click(function(e) {
         $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/cancelevent', function(data) {
             $('#qr').show();
+            //$('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
+            $('#qr').html('Scan this code <div id="qrcode"></div>');
+            new QRCode("qrcode", {
+                text: data,
+                width: 300,
+                height: 300
+            });
+            $('#qr').tmList();
+
+            $('body').one('click', function() {
+                $('#qr').hide();
+                okular.add({
+                    width: 600,
+                    height: 600
+                });
+            });
+        });
+    });
+
+    $('#finish').click(function(e) {
+        $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/finishevent', function(data) {
+            $('#qr').show();
             $('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
             //$('#qr').html('Scan this code <div id="qrcode"></div>');
             new QRCode("qrcode", {

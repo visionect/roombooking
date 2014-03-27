@@ -66,6 +66,12 @@ class Root(object):
         return cherrypy.lib.static.serve_file(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'cancelevent.html'))
 
     @cherrypy.expose
+    def finishevent(self, uuid):
+        if not 'userid' in cherrypy.session:
+            return "Error: Not logged in"
+        return cherrypy.lib.static.serve_file(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'finishevent.html'))
+
+    @cherrypy.expose
     def auth(self, state=None, code=None):
         if code:
             credentials = self.flow.step2_exchange(code)
