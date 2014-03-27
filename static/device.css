@@ -1,0 +1,84 @@
+#top {
+	background: rgba(1,1,1,0.7);
+	color: white;
+}
+
+.sidebar {
+	background-color: rgba(1,1,1,0.7);
+}
+
+.btn-success{
+	background: transparent;
+	border: none;
+}
+
+body, html {
+	height: 100%
+}
+
+.fill {
+	height: 100%;
+	overflow: hidden;
+}
+
+.fill-80 {
+	height: 80%;
+}
+
+.fill-20 {
+	height: 20%;
+}
+.vcenter {
+    display:table;
+}
+
+.vcenter-content {
+	display:table-cell;
+    vertical-align:middle;
+}
+
+body {
+	color:black;
+}
+
+
+h1 {
+	font-size: 72px;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+span.glyphicon {
+	font-size: 3.2em;
+}
+
+.logo {
+	padding: 0 15px;
+}
+
+#qr {
+	position: absolute;
+	background: #fff;
+	top: 0;
+	left: 0;
+	width: 600px;
+	height: 600px;
+	display: none;
+	text-align: center;
+	font-size: 24px;
+	padding-top: 110px;
+}
+
+#qrcode {
+	margin: 20px 0;
+}
+
+#qrcode img {
+	margin: 0 auto;
+}
+
+#control button {
+	font-size: 24px;
+}

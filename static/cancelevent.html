@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cancel event</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div id="user" class="pull-right"></div>
+            <h3>Cancel event</h3>
+        </div>
+        <div class="alert alert-danger hidden"></div>
+        <form role="form">
+            Are you sure you want to cancel event <span id="name"></span>?
+            
+            <button type="submit" class="btn btn-primary btn-lg btn-block" disabled>Yes, cancel event</button>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/cancelevent.js"></script>
+    <script type="text/javascript" src="http://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+</body>
+</html>

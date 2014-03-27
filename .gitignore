@@ -1,0 +1,3 @@
+server.conf
+*.pyc
+server.db

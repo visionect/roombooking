@@ -1,0 +1,21 @@
+[global]
+server.socket_host: "0.0.0.0"
+
+google.api_key: 'google api key'
+google.client_id: 'google client id'
+google.client_secret: 'google client secret'
+
+google.calendar.id: 'shared calendar id'
+google.calendar.ownerid: 'shared calendar owner id'
+
+database.name: 'server.db'
+
+server.host: 'http://server url'
+
+[/]
+tools.sessions.on = True
+
+[/static]
+tools.staticdir.on = True
+tools.staticdir.root = "full path to static dir"
+tools.staticdir.dir = ""

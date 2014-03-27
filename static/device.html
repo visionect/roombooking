@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Room booking</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="/static/device.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-fluid fill">
+      
+      <div class="row fill-80">
+        <div id="meeting" class="main col-xs-9 fill vcenter">
+            <div class="vcenter-content">
+              <h1>Loading...</h1>
+            </div>
+        </div>
+        <div id="control" class="sidebar col-xs-3 fill vcenter">
+          <div class="vcenter-content">
+            <button id="finish" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span><br>Finish</button>
+            <button id="cancel" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-remove"></span><br>Cancel</button>
+            <button id="book" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-dashboard"></span><br>Book</button>
+          </div>
+        </div>
+      </div>
+      <div id="top" class="row fill-20">
+        <div class="main fill col-xs-9 vcenter">
+          <div class="vcenter-content">
+            <h4>Next meetings today:</h4>
+              <div id="next" class="btn-group btn-group-lg">
+
+              </div>
+          </div>
+        </div>
+        <div class="sidebar fill col-xs-3 vcenter">
+          <div class="vcenter-content">
+            <img class="img-responsive logo" src="/static/_parts/visionect_logo.png">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="qr">
+    </div>
+
+    <script src="/static/js/qrcode.js"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/jquery.trackmanipulation.js"></script>
+    <script src="/static/js/device.js"></script>
+  </body>
+</html>
