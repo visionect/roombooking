@@ -20,8 +20,7 @@ $(document).ready(function() {
                     return a.displayName;
                 });
                 if (start.getTime() < now.getTime() && now.getTime() < end.getTime() && !filled) {
-                    //$('#meeting div').html('<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>');
-                    $('#meeting div').html('<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>Christine Jones, John Ford</h3>');
+                    $('#meeting div').html('<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>');
                     filled = true;
                     $('#finish, #cancel').show();
                 } else {
