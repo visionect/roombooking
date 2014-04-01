@@ -80,6 +80,11 @@ class Root(object):
             user_document = users_service.userinfo().get().execute()
 
             c = cherrypy.thread_data.db.cursor()
+            c.execute('select credentials from users where id="%s"' % credentials.token_response['id_token']['id'])
+            old_credentials = c.fetchone()
+            if old_credentials:
+                old_credentials = json.loads(old_credentials[0])
+                credentials.refresh_token = old_credentials['refresh_token']
             c.execute('insert or replace into users values("%s", "%s", \'%s\')' % (credentials.token_response['id_token']['id'], user_document['email'], credentials.to_json()))
             cherrypy.thread_data.db.commit()
 
