@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/js/DateTimePicker.css" />
+    
 </head>
 <body>
     <div class="container">
@@ -28,18 +29,20 @@
             
             <div class="form-group">
                 <label for="start">Start</label>
-                <input type="datetime" class="form-control" id="start" >
+                <input type="text" class="form-control" data-field="datetime" id="start" >
             </div>
             <div class="form-group">
                 <label for="end">End</label>
-                <input type="datetime" class="form-control" id="end" >
+                <input type="text" class="form-control" data-field="datetime" id="end" >
             </div>
+            <div id="dtBox"></div>
             
             <button type="submit" class="btn btn-primary btn-lg btn-block" disabled>Create event</button>
         </form>
     </div>
 
     <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/DateTimePicker.js"></script>
     <script type="text/javascript" src="/static/js/newevent.js"></script>
     <script type="text/javascript" src="http://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 </body>

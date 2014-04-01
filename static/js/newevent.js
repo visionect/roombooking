@@ -1,5 +1,7 @@
 function handleClientLoad() {
     $(document).ready(function() {
+        $("#dtBox").DateTimePicker();
+
         $.getJSON('/user', function(data) {
             if (! ('error' in data)) {
                 $('#user').html(data.email);
