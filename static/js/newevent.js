@@ -1,6 +1,8 @@
 function handleClientLoad() {
     $(document).ready(function() {
-        $("#dtBox").DateTimePicker();
+        $("#dtBox").DateTimePicker({
+            dateTimeFormat: "yyyy-MM-dd HH:mm:ss"
+        });
 
         $.getJSON('/user', function(data) {
             if (! ('error' in data)) {
@@ -21,10 +23,10 @@ function handleClientLoad() {
                                     summary: $('#summary').val(),
                                     location: $('#location').val(),
                                     start: {
-                                        dateTime: $('#start').val()
+                                        dateTime: (new Date($('#start').val())).toISOString()
                                     },
                                     end: {
-                                        dateTime: $('#end').val()
+                                        dateTime: (new Date($('#end').val())).toISOString()
                                     }
                                 }
                             }).execute(function(data) {
