@@ -91,8 +91,8 @@ $(document).ready(function() {
     $('#finish').click(function(e) {
         $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/finishevent', function(data) {
             $('#qr').show();
-            $('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
-            //$('#qr').html('Scan this code <div id="qrcode"></div>');
+            //$('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
+            $('#qr').html('Scan this code <div id="qrcode"></div>');
             new QRCode("qrcode", {
                 text: data,
                 width: 300,
