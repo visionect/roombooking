@@ -3,6 +3,17 @@ function handleClientLoad() {
         $("#dtBox").DateTimePicker({
             dateTimeFormat: "yyyy-MM-dd HH:mm:ss"
         });
+        $('#start').change(function() {
+            $('#end').data('min', $(this).val());
+        });
+
+        function formatDate(date) {
+            try {
+                return (new Date(date.slice(0,4), date.slice(5,7), date.slice(8,10), date.slice(11,13), date.slice(14,16))).toISOString();
+            } catch (e) {
+                return "";
+            }
+        }
 
         $.getJSON('/user', function(data) {
             if (! ('error' in data)) {
@@ -23,10 +34,10 @@ function handleClientLoad() {
                                     summary: $('#summary').val(),
                                     location: $('#location').val(),
                                     start: {
-                                        dateTime: (new Date($('#start').val())).toISOString()
+                                        dateTime: formatDate($('#start').val())
                                     },
                                     end: {
-                                        dateTime: (new Date($('#end').val())).toISOString()
+                                        dateTime: formatDate($('#end').val())
                                     }
                                 }
                             }).execute(function(data) {
