@@ -9,7 +9,7 @@ function handleClientLoad() {
 
         function formatDate(date) {
             try {
-                return (new Date(date.slice(0,4), date.slice(5,7), date.slice(8,10), date.slice(11,13), date.slice(14,16))).toISOString();
+                return (new Date(date.slice(0,4), parseInt(date.slice(5,7))-1, date.slice(8,10), date.slice(11,13), date.slice(14,16))).toISOString();
             } catch (e) {
                 return "";
             }
