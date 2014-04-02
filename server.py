@@ -7,7 +7,7 @@ import datetime
 import dateutil.parser
 from random import randint
 
-from oauth2client.client import OAuth2WebServerFlow, OAuth2Credentials
+from oauth2client.client import OAuth2WebServerFlow, OAuth2Credentials, Storage
 from apiclient.discovery import build
 
 
@@ -79,14 +79,16 @@ class Root(object):
             users_service = build('oauth2', 'v2', http=http)
             user_document = users_service.userinfo().get().execute()
 
-            c = cherrypy.thread_data.db.cursor()
-            c.execute('select credentials from users where id="%s"' % credentials.token_response['id_token']['id'])
-            old_credentials = c.fetchone()
+            storage = SqliteStorage(credentials.token_response['id_token']['id'])
+
+            old_credentials = storage.get()
             if old_credentials:
-                old_credentials = json.loads(old_credentials[0])
-                credentials.refresh_token = old_credentials['refresh_token']
-            c.execute('insert or replace into users values("%s", "%s", \'%s\')' % (credentials.token_response['id_token']['id'], user_document['email'], credentials.to_json()))
-            cherrypy.thread_data.db.commit()
+                if not credentials.refresh_token:
+                    credentials.refresh_token = old_credentials.refresh_token
+                storage.put(credentials)
+            else:
+                c.execute('insert into users values("%s", "%s", "")' % (credentials.token_response['id_token']['id'], user_document['email']))
+                storage.put(credentials)
 
             cherrypy.session.regenerate()
             cherrypy.session['userid'] = credentials.token_response['id_token']['id']
@@ -127,12 +129,9 @@ class Root(object):
         return 'error'
 
     def get_user_data(self, userid, withCredentials=False):
-        c = cherrypy.thread_data.db.cursor()
-        c.execute('select credentials from users where id="%s"' % userid)
-        user = c.fetchone()
-        if user:
-            credentials = OAuth2Credentials.from_json(user[0])
+        credentials = SqliteStorage(userid).get()
 
+        if credentials:
             obj = {
                 'id': userid,
                 'access_token': credentials.token_response['access_token'],
@@ -185,6 +184,33 @@ class Root(object):
             items = [i for i in items if i.get('location') == device[1] and dateutil.parser.parse(i['end']['dateTime']).replace(tzinfo=None) > now.replace(tzinfo=None)]
 
         return json.dumps(items)
+
+
+class SqliteStorage(Storage):
+    def __init__(self, id):
+        self.id = id
+
+    def locked_get(self):
+        c = cherrypy.thread_data.db.cursor()
+        c.execute('select credentials from users where id="%s"' % self.id)
+        credentials = c.fetchone()
+        if credentials:
+            credentials = OAuth2Credentials.from_json(credentials[0])
+            credentials.set_store(self)
+            return credentials
+
+        return None
+
+    def locked_put(self, credentials):
+        print "PUTTING credentials for %s" % self.id
+        c = cherrypy.thread_data.db.cursor()
+        c.execute('update users set credentials=\'%s\' where id="%s"' % (credentials.to_json(), self.id))
+        cherrypy.thread_data.db.commit()
+
+    def locked_delete(self):
+        c = cherrypy.thread_data.db.cursor()
+        c.execute('delete from users where id="%s"' % self.id)
+        cherrypy.thread_data.db.commit()
 
 
 if __name__ == '__main__':
