@@ -79,7 +79,7 @@ class Root(object):
             users_service = build('oauth2', 'v2', http=http)
             user_document = users_service.userinfo().get().execute()
 
-            storage = SqliteStorage(credentials.token_response['id_token']['id'])
+            storage = SqliteStorage(credentials.id_token['id'])
 
             old_credentials = storage.get()
             if old_credentials:
@@ -87,15 +87,15 @@ class Root(object):
                     credentials.refresh_token = old_credentials.refresh_token
                 storage.put(credentials)
             else:
-                c.execute('insert into users values("%s", "%s", "")' % (credentials.token_response['id_token']['id'], user_document['email']))
+                c.execute('insert into users values("%s", "%s", "")' % (credentials.id_token['id'], user_document['email']))
                 storage.put(credentials)
 
             cherrypy.session.regenerate()
-            cherrypy.session['userid'] = credentials.token_response['id_token']['id']
+            cherrypy.session['userid'] = credentials.id_token['id']
             cherrypy.session['credentials'] = credentials
 
             owner = self.get_user_data(cherrypy.config['google.calendar.ownerid'], True)
-            if not 'error' in owner and cherrypy.config['google.calendar.ownerid'] != credentials.token_response['id_token']['id']:
+            if not 'error' in owner and cherrypy.config['google.calendar.ownerid'] != credentials.id_token['id']:
                 http = owner['credentials'].authorize(httplib2.Http())
                 calendar_service = build('calendar', 'v3', http=http)
                 calendar_service.acl().insert(calendarId = cherrypy.config['google.calendar.id'], body = {
@@ -107,7 +107,7 @@ class Root(object):
                     }).execute()
 
             if state != 'None' and state != None:
-                self.handle_event(state, credentials.token_response['id_token']['id']) 
+                self.handle_event(state, credentials.id_token['id']) 
 
             raise cherrypy.HTTPRedirect('/')
 
@@ -135,7 +135,7 @@ class Root(object):
             obj = {
                 'id': userid,
                 'access_token': credentials.token_response['access_token'],
-                'email': credentials.token_response['id_token']['email'],
+                'email': credentials.id_token['email'],
                 'calendarId': cherrypy.config['google.calendar.id'],
                 'client_id': cherrypy.config['google.client_id'],
             }
