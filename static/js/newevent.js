@@ -14,6 +14,18 @@ function handleClientLoad() {
                 return "";
             }
         }
+        function time(date) {
+            var hours = date.getHours(),
+                minutes = date.getMinutes(),
+                out = '';
+            if (hours < 10)
+                out += '0';
+            out += hours + ':';
+            if (minutes < 10)
+                out += '0'
+
+            return out + minutes;
+        }
 
         $.getJSON('/user', function(data) {
             if (! ('error' in data)) {
@@ -28,24 +40,42 @@ function handleClientLoad() {
                         $('button').prop('disabled', false).click(function(e) {
                             e.preventDefault();
 
-                            gapi.client.calendar.events.insert({
+                            gapi.client.calendar.events.list({
                                 calendarId: data.calendarId,
-                                resource: {
-                                    summary: $('#summary').val(),
-                                    location: $('#location').val(),
-                                    start: {
-                                        dateTime: formatDate($('#start').val())
-                                    },
-                                    end: {
-                                        dateTime: formatDate($('#end').val())
-                                    }
-                                }
-                            }).execute(function(data) {
-                                if (data && !data.error) {
-                                    $('form').remove();
-                                    $('.alert').removeClass('alert-danger hidden').addClass('alert-success').html('<strong>Event added:</strong> Edit it on <a href="' + data.htmlLink + '">Google Calendar</a>');
+                                timeMax: formatDate($('#end').val()),
+                                timeMin: formatDate($('#start').val())
+                            }).execute(function(listdata) {
+                                if (listdata.items) {
+                                    var items = $.grep(listdata.items, function(event) {
+                                        return event.location == $('#location').val();
+                                    });
                                 } else {
-                                    $('.alert').html('<strong>Error:</strong> ' + data.message).removeClass('hidden');
+                                    var items = [];
+                                }
+                                
+                                if (items.length > 0) {
+                                    $('.alert').html('<strong>Error:</strong> Room occupied (' + items[0].summary + ' ' + time(new Date(items[0].start.dateTime)) + '-' + time(new Date(items[0].end.dateTime)) + ')').removeClass('hidden');
+                                } else {
+                                    gapi.client.calendar.events.insert({
+                                        calendarId: data.calendarId,
+                                        resource: {
+                                            summary: $('#summary').val(),
+                                            location: $('#location').val(),
+                                            start: {
+                                                dateTime: formatDate($('#start').val())
+                                            },
+                                            end: {
+                                                dateTime: formatDate($('#end').val())
+                                            }
+                                        }
+                                    }).execute(function(data) {
+                                        if (data && !data.error) {
+                                            $('form').remove();
+                                            $('.alert').removeClass('alert-danger hidden').addClass('alert-success').html('<strong>Event added:</strong> Edit it on <a href="' + data.htmlLink + '">Google Calendar</a>');
+                                        } else {
+                                            $('.alert').html('<strong>Error:</strong> ' + data.message).removeClass('hidden');
+                                        }
+                                    });
                                 }
                             });
                         });
