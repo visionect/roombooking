@@ -17,7 +17,7 @@ $(document).ready(function() {
                     attendees = attendees.concat(evt.attendees);
                 }
                 attendees = $.map(attendees, function(a) {
-                    return a.displayName;
+                    return a.displayName || a.email;
                 });
                 if (start.getTime() < now.getTime() && now.getTime() < end.getTime() && !filled) {
                     $('#meeting div').html('<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>');
