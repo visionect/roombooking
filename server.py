@@ -87,7 +87,9 @@ class Root(object):
                     credentials.refresh_token = old_credentials.refresh_token
                 storage.put(credentials)
             else:
+                c = cherrypy.thread_data.db.cursor()
                 c.execute('insert into users values("%s", "%s", "")' % (credentials.id_token['id'], user_document['email']))
+                cherrypy.thread_data.db.commit()
                 storage.put(credentials)
 
             cherrypy.session.regenerate()
