@@ -1,7 +1,4 @@
 [global]
-#LEAVE THE SETTINGS AT DEFAULT VALUES UNLESS YOU HAVE SOMETHING ELSE RUNNING ON PORT 8080
-server.socket_host: "127.0.0.1"
-server.socket_port: "8080"
 
 google.api_key: 'google api key'
 google.client_id: 'google client id'
@@ -9,10 +6,13 @@ google.client_secret: 'google client secret'
 
 google.calendar.id: 'shared calendar id'
 google.calendar.ownerid: 'shared calendar owner id'
+server.host: 'http://YOUR_SERVER_URL'
 
+#LEAVE THE SETTINGS AT DEFAULT VALUES UNLESS YOU HAVE SOMETHING ELSE RUNNING ON PORT 8080
+server.socket_host: "127.0.0.1"
+server.socket_port: 8080
+#NO NEED TO CHANGE THIS:
 database.name: 'server.db'
-
-server.host: 'http://server url'
 
 [/]
 tools.sessions.on = True

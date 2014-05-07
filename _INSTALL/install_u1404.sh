@@ -25,12 +25,13 @@ then
 
     printf  "\n**** Creating a new config file\n"
     printf "**** MAKE SURE YOU EDIT $INSTALL_DIR/server.conf AND ADD YOUR GOOGLE APPS CREDENTIALS!\n"
-    cp $INSTALL_DIR/server.conf.example $INSTALL_DIR/server.conf
+    cat <(fgrep -i -v "tools.staticdir.root" <(cat $INSTALL_DIR/server.conf.example)) <(echo "tools.staticdir.root='$INSTALL_DIR/static/'") > $INSTALL_DIR/server.conf
 
-    printf "\n**** Installing the supervisord service in the local users crontab\n"
+    printf "\n**** Starting and installing the supervisord service in the local users crontab\n"
     COMMAND="$INSTALL_DIR/start_roombooking.sh"
     JOB="@reboot $COMMAND"
     cat <(fgrep -i -v "$COMMAND" <(crontab -l)) <(echo "$JOB") | crontab -
+    $COMMAND
 
     printf "\n**** Symlinking the configuration for NGINX, service will be running on port 8000.\n"
     sudo ln -sfn $INSTALL_DIR/roombooking-nginx.conf /etc/nginx/sites-enabled/roombooking-nginx.conf
