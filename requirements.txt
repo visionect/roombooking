@@ -1,4 +1,8 @@
-httplib2==0.8
 CherryPy==3.2.5
 google-api-python-client==1.2
+httplib2==0.8
+meld3==1.0.0
 python-dateutil==2.2
+six==1.6.1
+supervisor==3.0
+wsgiref==0.1.2

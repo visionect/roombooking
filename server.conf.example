@@ -1,5 +1,7 @@
 [global]
-server.socket_host: "0.0.0.0"
+#LEAVE THE SETTINGS AT DEFAULT VALUES UNLESS YOU HAVE SOMETHING ELSE RUNNING ON PORT 8080
+server.socket_host: "127.0.0.1"
+server.socket_port: "8080"
 
 google.api_key: 'google api key'
 google.client_id: 'google client id'
