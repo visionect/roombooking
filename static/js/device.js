@@ -112,7 +112,8 @@ $(document).ready(function() {
 
     okular.init({
         width: 800,
-        height: 600
+        height: 600,
+        debug: false
     });
 
     updateData();
