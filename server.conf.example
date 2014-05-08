@@ -5,7 +5,7 @@ google.client_id: 'google client id'
 google.client_secret: 'google client secret'
 
 google.calendar.id: 'shared calendar id'
-google.calendar.ownerid: 'shared calendar owner id'
+google.calendar.ownerid: 'shared calendar owner id' #USE THE OWNERS EMAIL!
 server.host: 'http://YOUR_SERVER_URL'
 
 #LEAVE THE SETTINGS AT DEFAULT VALUES UNLESS YOU HAVE SOMETHING ELSE RUNNING ON PORT 8080
