@@ -22,6 +22,12 @@ class Root(object):
                            scope='https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email',
                            redirect_uri=cherrypy.config['server.host'] + '/auth')
 
+    def get_owner_id(self, email):
+        c = cherrypy.thread_data.db.cursor()
+        c.execute('select id from users where mail="%s"' % self.id)
+        owner_id = c.fetchone()
+        return owner_id
+
     @cherrypy.expose
     def index(self, number=None):
         if not 'userid' in cherrypy.session:
@@ -96,8 +102,8 @@ class Root(object):
             cherrypy.session['userid'] = credentials.id_token['id']
             cherrypy.session['credentials'] = credentials
 
-            owner = self.get_user_data(cherrypy.config['google.calendar.ownerid'], True)
-            if not 'error' in owner and cherrypy.config['google.calendar.ownerid'] != credentials.id_token['id']:
+            owner = self.get_user_data(self.get_owner_id(cherrypy.config['google.calendar.ownerid']), True)
+            if not 'error' in owner and self.get_owner_id(cherrypy.config['google.calendar.ownerid']) != credentials.id_token['id']:
                 http = owner['credentials'].authorize(httplib2.Http())
                 calendar_service = build('calendar', 'v3', http=http)
                 calendar_service.acl().insert(calendarId = cherrypy.config['google.calendar.id'], body = {
@@ -165,7 +171,7 @@ class Root(object):
 
     @cherrypy.expose
     def events(self, uuid):
-        user = self.get_user_data(cherrypy.config['google.calendar.ownerid'], True)
+        user = self.get_user_data(self.get_owner_id(cherrypy.config['google.calendar.ownerid']), True)
         http = user['credentials'].authorize(httplib2.Http())
         calendar_service = build('calendar', 'v3', http=http)
         now = datetime.datetime.now()
@@ -218,3 +224,4 @@ class SqliteStorage(Storage):
 if __name__ == '__main__':
     cherrypy.config.update('server.conf')
     cherrypy.quickstart(Root(), config='server.conf')
+
