@@ -1,12 +1,16 @@
 [global]
+#SET YOUR DOMAIN. MUST BE PUBLIC
+server.host: 'http://server url'
 
+#LOG INTO GOOGLE DEVELOPERS CONSOLE AND CREATE NEW PROJECT, ENABLE GOOGLE CALENDAR API AND CREATE CREDENTIALS (NEW CLIENT_ID AND PUBLIC API ACCESS)
 google.api_key: 'google api key'
 google.client_id: 'google client id'
 google.client_secret: 'google client secret'
 
+#LOG INTO GOOGLE CALENDAR AND GET DATA FROM CALENDAR SETTINGS>CALENDAR ADDRESS (NEXT TO THE ICONS YOU'LL SEE CALENDAR ID)
 google.calendar.id: 'shared calendar id'
-google.calendar.ownerid: 'shared calendar owner id' #USE THE OWNERS EMAIL!
-server.host: 'http://YOUR_SERVER_URL'
+#ENTER THE CALENDAR OWNER'S EMAIL
+google.calendar.ownerid: 'shared calendar owner id'
 
 #LEAVE THE SETTINGS AT DEFAULT VALUES UNLESS YOU HAVE SOMETHING ELSE RUNNING ON PORT 8080
 server.socket_host: "127.0.0.1"
