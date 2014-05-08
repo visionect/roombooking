@@ -26,7 +26,9 @@ class Root(object):
         c = cherrypy.thread_data.db.cursor()
         c.execute('select id from users where mail="%s"' % self.id)
         owner_id = c.fetchone()
-        return owner_id
+        if owner_id:
+            return u"%s" % (owner_id)
+        return None
 
     @cherrypy.expose
     def index(self, number=None):
