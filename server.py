@@ -24,7 +24,7 @@ class Root(object):
 
     def get_owner_id(self, email):
         c = cherrypy.thread_data.db.cursor()
-        c.execute('select id from users where mail="%s"' % self.id)
+        c.execute('select id from users where mail="%s"' % email)
         owner_id = c.fetchone()
         if owner_id:
             return u"%s" % (owner_id)
