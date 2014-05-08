@@ -14,7 +14,6 @@ Ubuntu 14.04 users: Quick installation procedure
 ------------------------------------------------
 Will install Room Booking System together with Nginx and Supervisord. Tested on clean+fresh machines. 
 
-* open terminal and run:
-`wget https://raw.githubusercontent.com/visionect/roombooking/master/_INSTALL/install_u1404.sh`
-`bash install_u1404.sh`
+* download install script: `wget https://raw.githubusercontent.com/visionect/roombooking/master/_INSTALL/install_u1404.sh`
+* run install script: `bash install_u1404.sh`
 
