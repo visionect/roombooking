@@ -25,24 +25,24 @@ You'll need a couple of parameters for server.conf file.
 
 Access the [Google developers console](https://console.developers.google.com) and create a new project. View project details and enable the `Calendar API` under `APIs & auth`. Finally go under `Credentials` and `Create a new client ID`. Set the `Javascript Origins` to match your server's domain (ie: http://my_server:8000/) and the `Redirect URI` to domain/auth (ie: http://my_server:8000/auth). When you're done you'll get a new Client ID for web application which will look like:
 
- . | .
--- | --
+````
 Client ID | 289995-o8to3ohj2vvczvzdqcbe1rlgu67s3o.apps.googleusercontent.com 
 Email address | 289995-o8to3ohj2vvczvzdqcbe1rlgu67s3o@developer.gserviceaccount.com
 Client secret | zcvbxdsas32414213
 Redirect URIs | http://your_server:8000/auth
 Javascript Origins | http://your_server:8000/
+````
  
 ### Public API key
 
 Public API key is generated just below. Click `create new key` and select `server key` from the list. Feel free to limit access to your servers IP. When you're done, you'll see a new table that looks like:
 
- . | .
--- | --
+````
 API key | BIzaSyADdHdeC8X__42452zV3EgvnBSlx0
 IPs | Any IP allowed
 Activation date	| May 1, 2345 13:37 AM
 Activated by | your.google.account@gmail.com (you)
+````
 
 ### Calendar sharing
 
