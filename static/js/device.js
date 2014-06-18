@@ -1,7 +1,18 @@
 $(document).ready(function() {
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results==null){
+            return null;
+        }
+        else{
+            return results[1] || 0;
+        }
+    }
+
+    var uuid = $.urlParam('uuid') || okular.device_uuid || 'testdevice';
 
     function updateData() {
-        $.getJSON('/events/' + (okular.device_uuid || 'testdevice'), function(data) {
+        $.getJSON('/events/' + uuid, function(data) {
             var now = new Date();
 
             $('#meeting div').html('<h1>Room available</h1>');
@@ -44,7 +55,7 @@ $(document).ready(function() {
     }
 
     $('#book').click(function(e) {
-        $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/newevent', function(data) {
+        $.get('/create_action/' + uuid + '/newevent', function(data) {
             console.log(data);
             $('#qr').show();
             //$('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
@@ -67,7 +78,7 @@ $(document).ready(function() {
     });
 
     $('#cancel').click(function(e) {
-        $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/cancelevent', function(data) {
+        $.get('/create_action/' + uuid + '/cancelevent', function(data) {
             $('#qr').show();
             //$('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
             $('#qr').html('Scan this code <div id="qrcode"></div>');
@@ -89,7 +100,7 @@ $(document).ready(function() {
     });
 
     $('#finish').click(function(e) {
-        $.get('/create_action/' + (okular.device_uuid || 'testdevice') + '/finishevent', function(data) {
+        $.get('/create_action/' + uuid + '/finishevent', function(data) {
             $('#qr').show();
             //$('#qr').html('Scan this code <div id="qrcode"></div> or open <p>' + data + '</p> in your browser.');
             $('#qr').html('Scan this code <div id="qrcode"></div>');
