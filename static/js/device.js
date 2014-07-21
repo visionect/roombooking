@@ -15,11 +15,8 @@ $(document).ready(function() {
         $.getJSON('/events/' + uuid, function(data) {
             var now = new Date();
 
-            $('#meeting div').html('<h1>Room available</h1>');
-            $('#next').html('');
-            $('#finish, #cancel').hide();
-
             var filled = false;
+            var next = '';
             $.each(data, function(index, evt) {
                 var start = new Date(evt.start.dateTime),
                     end = new Date(evt.end.dateTime);
@@ -31,13 +28,23 @@ $(document).ready(function() {
                     return a.displayName || a.email;
                 });
                 if (start.getTime() < now.getTime() && now.getTime() < end.getTime() && !filled) {
-                    $('#meeting div').html('<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>');
+                    var text = '<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>';
+                    if ($.trim($('#meeting div').html()) != text) {
+                        $('#meeting div').html(text);
+                        $('#finish, #cancel').show();
+                    }
                     filled = true;
-                    $('#finish, #cancel').show();
                 } else {
-                    $('#next').append('<button type="button" class="btn btn-success">' + time(start) + '-' + time(end) + '<br/>' + evt.summary + '</button>');
+                    next += '<button type="button" class="btn btn-success">' + time(start) + '-' + time(end) + '<br/>' + evt.summary + '</button>';
                 }
             });
+            if ($.trim($('#next').html()) != next) {
+                $('#next').html(next);
+            }
+            if (!filled && $.trim($('#meeting div').html()) != '<h1>Room available</h1>') {
+                $('#meeting div').html('<h1>Room available</h1>');
+                $('#finish, #cancel').hide();
+            }
         });
     }
 
@@ -129,4 +136,5 @@ $(document).ready(function() {
 
     updateData();
     setInterval(updateData, 60000);
+    $('#finish, #cancel').hide();
 });
