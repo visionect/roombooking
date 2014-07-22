@@ -28,7 +28,7 @@ $(document).ready(function() {
                     return a.displayName || a.email;
                 });
                 if (start.getTime() < now.getTime() && now.getTime() < end.getTime() && !filled) {
-                    var text = '<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:<h2><h3>' + attendees.join(', ') + '</h3>';
+                    var text = '<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:</h2><h3>' + attendees.join(', ') + '</h3>';
                     if ($.trim($('#meeting div').html()) != text) {
                         $('#meeting div').html(text);
                         $('#finish, #cancel').show();
