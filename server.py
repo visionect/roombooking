@@ -6,6 +6,7 @@ import os
 import datetime
 import dateutil.parser
 from random import randint
+from pytz import timezone
 
 from oauth2client.client import OAuth2WebServerFlow, OAuth2Credentials, Storage
 from apiclient.discovery import build
@@ -176,7 +177,8 @@ class Root(object):
         user = self.get_user_data(self.get_owner_id(cherrypy.config['google.calendar.ownerid']), True)
         http = user['credentials'].authorize(httplib2.Http())
         calendar_service = build('calendar', 'v3', http=http)
-        now = datetime.datetime.now()
+        tz = timezone(calendar_service.calendars().get(calendarId = cherrypy.config['google.calendar.id']).execute()['timeZone'])
+        now = datetime.datetime.now(tz)
         events = calendar_service.events().list(**{
                 'calendarId': cherrypy.config['google.calendar.id'],
                 'timeMin': datetime.datetime(now.year, now.month, now.day).isoformat() + '.0z',
@@ -191,7 +193,9 @@ class Root(object):
         c.execute('select * from device where uuid="%s"' % uuid)
         device = c.fetchone()
         if device:
-            items = [i for i in items if i.get('location') == device[1] and dateutil.parser.parse(i['end']['dateTime']).replace(tzinfo=None) > now.replace(tzinfo=None)]
+            items = [i for i in items if i.get('location') == device[1] and dateutil.parser.parse(i['end']['dateTime']) > now]
+        for i in items:
+            i['timeZone'] = tz.zone
 
         return json.dumps(items)
 

@@ -13,13 +13,16 @@ $(document).ready(function() {
 
     function updateData() {
         $.getJSON('/events/' + uuid, function(data) {
-            var now = new Date();
-
             var filled = false;
             var next = '';
+            var now;
+
             $.each(data, function(index, evt) {
-                var start = new Date(evt.start.dateTime),
-                    end = new Date(evt.end.dateTime);
+                var start = moment.tz(evt.start.dateTime, evt.timeZone),
+                    end = moment.tz(evt.end.dateTime, evt.timeZone);
+                if (!now) {
+                    now = moment.tz(new Date(), evt.timeZone);
+                }
                 var attendees = [evt.creator];
                 if ('attendees' in evt) {
                     attendees = attendees.concat(evt.attendees);
@@ -27,15 +30,15 @@ $(document).ready(function() {
                 attendees = $.map(attendees, function(a) {
                     return a.displayName || a.email;
                 });
-                if (start.getTime() < now.getTime() && now.getTime() < end.getTime() && !filled) {
-                    var text = '<h1>' + evt.summary + '</h1><h2>' + time(start) + '-' + time(end) + '</h2><h2>Atendees:</h2><h3>' + attendees.join(', ') + '</h3>';
+                if (start.isBefore(now) && now.isBefore(end) && !filled) {
+                    var text = '<h1>' + evt.summary + '</h1><h2>' + start.format('HH:mm') + '-' + end.format('HH:mm') + '</h2><h2>Atendees:</h2><h3>' + attendees.join(', ') + '</h3>';
                     if ($.trim($('#meeting div').html()) != text) {
                         $('#meeting div').html(text);
                         $('#finish, #cancel').show();
                     }
                     filled = true;
                 } else {
-                    next += '<button type="button" class="btn btn-success">' + time(start) + '-' + time(end) + '<br/>' + evt.summary + '</button>';
+                    next += '<button type="button" class="btn btn-success">' + start.format('HH:mm') + '-' + end.format('HH:mm') + '<br/>' + evt.summary + '</button>';
                 }
             });
             if ($.trim($('#next').html()) != next) {
@@ -46,19 +49,6 @@ $(document).ready(function() {
                 $('#finish, #cancel').hide();
             }
         });
-    }
-
-    function time(date) {
-        var hours = date.getHours(),
-            minutes = date.getMinutes(),
-            out = '';
-        if (hours < 10)
-            out += '0';
-        out += hours + ':';
-        if (minutes < 10)
-            out += '0'
-
-        return out + minutes;
     }
 
     $('#book').click(function(e) {
