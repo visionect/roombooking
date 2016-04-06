@@ -6,7 +6,7 @@ Warning
 
 This project has been built by Visionect as a proof-of-concept. We've since moved on and built a complete room booking solution (http://joanassistant.com). The code here is out of date, most notabily the integration with Google Calendar, due to the changes Google did on their end. To successfuly run the project you'll need to address issue #5. 
 
-*We will not provide additional support for this project*, but if you're interested in becoming a maintainer for the project please let us know.
+**We will not provide additional support for this project**, but if you're interested in becoming a maintainer for the project please let us know.
 
 *If you're looking for an affordable room booking solution, do look into Joan Assistant (http://www.joanassistant.com). It comes bundled with a e-paper device that will work for months on a battery charge and can be installed without wires.*
 
